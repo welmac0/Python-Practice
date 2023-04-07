@@ -1,5 +1,14 @@
 import random
 
+logo = '''
+ _______               ___.                        
+ \      \  __ __  _____\_ |__   ___________  ______
+ /   |   \|  |  \/     \| __ \_/ __ \_  __ \/  ___/
+/    |    \  |  /  Y Y  \ \_\ \  ___/|  | \/\___ \ 
+\____|__  /____/|__|_|  /___  /\___  >__|  /____  >
+        \/            \/    \/     \/           \/ 
+'''
+
 def attempts():
   global initialTries
   initialTries -= 1
@@ -8,6 +17,7 @@ def attempts():
   else:
     print(f"You have {initialTries} attempts remaining to guess the number")
 
+print(logo)
 print("Welcome to the Number Guessing Game! \nI'm thinking of a number between 1 and 100.")
 diff = input("Choose a difficulty. Type 'easy' or 'hard': ").lower()
 searchedNumber = random.randrange(101)
