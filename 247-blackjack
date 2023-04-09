@@ -1,0 +1,86 @@
+import random
+
+bjLogo = '''
+
+.------.            _     _            _    _            _    
+|A_  _ |.          | |   | |          | |  (_)          | |   
+|( \/ ).-----.     | |__ | | __ _  ___| | ___  __ _  ___| | __
+| \  /|K /\  |     | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+|  \/ | /  \ |     | |_) | | (_| | (__|   <| | (_| | (__|   < 
+`-----| \  / |     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\
+      |  \/ K|                            _/ |                
+      `------'                           |__/           
+
+
+'''
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+playerCards = []
+firstComputerCard = 0
+currentScore = 0
+compCards = []
+
+def addCompCards():
+  global sumCompCards
+  givenCard = random.choice(cards)
+  if givenCard == 11 and sum(compCards) > 10:
+    givenCard = 1
+  compCards.append(givenCard)
+  sumCompCards = sum(compCards)
+  if sumCompCards < 17:
+    addCompCards()
+    
+
+def addOneCardToPlayer():
+  global currentScore
+  global firstComputerCard
+  playerCards.append(random.choice(cards))
+  currentScore = sum(playerCards)
+  print(f"\t Your cards: {playerCards}, current score: {currentScore}")
+  print(f"\t Computer's first card: {firstComputerCard}")
+  if currentScore > 21:
+    addCompCards()
+    print(f"\t Your final hand: {playerCards}, final score: {currentScore} \n \t Computer's final hand: {compCards}, final score {sumCompCards} \nYou went over. You lose :(")
+    initial()
+  else:
+    getCardDecision = input(
+      "Type 'y' to get another card, type 'n' to pass: ").lower()
+    if getCardDecision == 'y':
+      addOneCardToPlayer()
+    elif getCardDecision == 'n':
+      addCompCards()
+      if sumCompCards > currentScore:
+        print(f"\t Your final hand: {playerCards}, final score: {currentScore} \n \t Computer's final hand: {compCards}, final score {sumCompCards} \nYou lose :(")
+        initial()
+      elif sumCompCards < currentScore:
+        print(f"\t Your final hand: {playerCards}, final score: {currentScore} \n \t Computer's final hand: {compCards}, final score {sumCompCards} \nYou won :)")
+        initial()
+      else:
+        print(f"\t Your final hand: {playerCards}, final score: {currentScore} \n \t Computer's final hand: {compCards}, final score {sumCompCards} \nDraft! :/")
+        initial()
+
+
+def game():
+  global firstComputerCard
+  firstPlayerCard = random.choice(cards)
+  secondPlayerCard = random.choice(cards)
+  firstComputerCard = random.choice(cards)
+  compCards.append(firstComputerCard)
+  playerCards.extend([firstPlayerCard, secondPlayerCard])
+  currentScore = sum(playerCards)
+  print(f"Your cards: {playerCards}, current score: {currentScore}")
+  print(f"Computer's first card: {firstComputerCard}")
+  getCardDecision = input(
+    "Type 'y' to get another card, type 'n' to pass: ").lower()
+  if getCardDecision == 'y':
+    addOneCardToPlayer()
+
+def initial():
+  decision = input(
+    "Do you want to play a game of Blackjack? Type 'y' or 'n': ").lower()
+  if decision == 'y':
+    print(chr(27) + "[2J")
+    print(bjLogo)
+    game()
+
+initial()
